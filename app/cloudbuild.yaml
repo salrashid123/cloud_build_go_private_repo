@@ -1,0 +1,31 @@
+steps:
+
+- name: gcr.io/cloud-builders/gcloud
+  id: creds
+  entrypoint: /bin/bash
+  args: 
+      - -c
+      - |
+        export TOKEN=`gcloud auth print-access-token`
+        cat <<EOF > /workspace/netrc
+        machine us-central1-go.pkg.dev
+        login oauth2accesstoken
+        password $$TOKEN
+        EOF
+
+- name: gcr.io/cloud-builders/docker
+  id: build
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/your-project/repo1/add:server', '.']
+  waitFor: ['creds']
+
+- name: gcr.io/cloud-builders/docker
+  id: tag
+  args: ['tag', 'us-central1-docker.pkg.dev/your-project/repo1/add:server', 'us-central1-docker.pkg.dev/$PROJECT_ID/repo1/add:server']
+  waitFor: ['build']
+
+images:
+  - us-central1-docker.pkg.dev/$PROJECT_ID/repo1/add:server
+serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/gobuilder@$PROJECT_ID.iam.gserviceaccount.com'
+options:
+  logging: CLOUD_LOGGING_ONLY
+
