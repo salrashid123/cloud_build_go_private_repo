@@ -114,7 +114,7 @@ gcloud artifacts repositories add-iam-policy-binding repo1 \
 Now build the go app locally
 
 ```bash
-export GOPROXY=https://us-central1-go.pkg.dev/mineral-minutia-820/gar1,https://proxy.golang.org,direct
+export GOPROXY=https://us-central1-go.pkg.dev/$PROJECT_ID/gar1,https://proxy.golang.org,direct
 export GONOSUMDB=example.com/salrashid123/*
 export GONOPROXY=github.com/GoogleCloudPlatform/artifact-registry-go-tools
 GOPROXY=proxy.golang.org   go run github.com/GoogleCloudPlatform/artifact-registry-go-tools/cmd/auth@latest refresh
@@ -132,7 +132,7 @@ go run main.go   -v 20 -alsologtostderr
 Build the docker image locally
 
 ```bash
-export GOPROXY=https://us-central1-go.pkg.dev/mineral-minutia-820/gar1,https://proxy.golang.org,direct
+export GOPROXY=https://us-central1-go.pkg.dev/$PROJECT_ID/gar1,https://proxy.golang.org,direct
 export GONOSUMDB=example.com/salrashid123/*
 export GONOPROXY=github.com/GoogleCloudPlatform/artifact-registry-go-tools
 GOPROXY=proxy.golang.org   go run github.com/GoogleCloudPlatform/artifact-registry-go-tools/cmd/auth@latest refresh
